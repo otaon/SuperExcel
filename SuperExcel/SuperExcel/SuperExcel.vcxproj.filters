@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\Controller">
+      <UniqueIdentifier>{212b0fca-797c-4f81-951f-c2e13e220d0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\View">
+      <UniqueIdentifier>{dfd31924-befb-4413-b67f-2d7dc73ed339}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Common">
+      <UniqueIdentifier>{a5e1695d-6375-4ba4-9ae4-86b8f80e2b22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Controller">
+      <UniqueIdentifier>{ff569fc5-2a81-463f-9371-44b0234122c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\View">
+      <UniqueIdentifier>{c66e6d43-7510-4a3a-b93f-e2195da291af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Common">
+      <UniqueIdentifier>{79f5180b-c4cc-459a-9b64-d9d97bc16964}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Model">
+      <UniqueIdentifier>{c71e9a9a-f089-4abe-b40d-b45635d50f33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Model">
+      <UniqueIdentifier>{6e8fc63b-8ae7-4f1b-b9a0-9d4ef1579c6a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="View_ViewPortController.c">
+      <Filter>ソース ファイル\View</Filter>
+    </ClCompile>
+    <ClCompile Include="View_CommandReceiver.c">
+      <Filter>ソース ファイル\View</Filter>
+    </ClCompile>
+    <ClCompile Include="View_CommandDictionary.c">
+      <Filter>ソース ファイル\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Common_Common.c">
+      <Filter>ソース ファイル\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller_REPL.c">
+      <Filter>ソース ファイル\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Model_DataBase.c">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model_DataManipulator.c">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model_DataString.c">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="View_Reader.c">
+      <Filter>ソース ファイル\View</Filter>
+    </ClCompile>
+    <ClCompile Include="View_Viewer.c">
+      <Filter>ソース ファイル\View</Filter>
+    </ClCompile>
+    <ClCompile Include="View_Argument.c">
+      <Filter>ソース ファイル\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller_Cell.c">
+      <Filter>ソース ファイル\Controller</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Common_Common.h">
+      <Filter>ヘッダー ファイル\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller_REPL.h">
+      <Filter>ヘッダー ファイル\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="View_Reader.h">
+      <Filter>ヘッダー ファイル\View</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller_Enum_Commands.h">
+      <Filter>ヘッダー ファイル\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller_Argument.h">
+      <Filter>ヘッダー ファイル\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller_Cell.h">
+      <Filter>ヘッダー ファイル\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="View_Viewer.h">
+      <Filter>ヘッダー ファイル\View</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
