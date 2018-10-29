@@ -5,8 +5,8 @@
 #include "Common_Common.h"
 
 typedef struct Controller_Cell {
-	int row;
 	int column;
+	int row;
 } Controller_Cell;
 
 

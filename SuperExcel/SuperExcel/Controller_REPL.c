@@ -6,6 +6,9 @@
 
 /// プライベートメソッド
 static Common_Error REPL();
+static Common_Error ConvertStringToCommandToken(char[], Controller_Enum_Commands*);
+static Common_Error ConvertStringToArgumentsToken(Controller_Enum_Commands, char[], Controller_Argument*, char[], Controller_Argument*);
+static Common_Error TryConvertArgumentToCell(int*, char[], Controller_Argument*);
 static Common_Error Evaluate(View_Reader*, View_Viewer*);
 
 
@@ -43,7 +46,7 @@ static Common_Error REPL()
 		/* Eval */
 		// prepare
 		RETURN_IF_ERROR(err = ConvertStringToCommandToken(view_Reader.command, &cmd));
-		RETURN_IF_ERROR(err = ConvertStringToArgumentsToken(view_Reader.command, &view_Reader.arg1, &arg1, &view_Reader.arg2, &arg2));
+		RETURN_IF_ERROR(err = ConvertStringToArgumentsToken(cmd, view_Reader.arg1, &arg1, view_Reader.arg2, &arg2));
 
 		// execute
 		RETURN_IF_ERROR(err = View_Viewer_Init(&view_Viewer));
@@ -53,6 +56,8 @@ static Common_Error REPL()
 		// execute
 		RETURN_IF_ERROR(err = View_Viewer_Print(&view_Viewer));
 	} while (!HAS_ERROR(err));
+
+	return COMMON_ERROR_NO_ERROR;
 }
 
 
@@ -89,6 +94,8 @@ static Common_Error ConvertStringToCommandToken(char str[], Controller_Enum_Comm
 
 static Common_Error ConvertStringToArgumentsToken(Controller_Enum_Commands cmd, char arg_str1[], Controller_Argument *arg1, char arg_str2[], Controller_Argument *arg2)
 {
+	Common_Error err;
+
 	//int arg_selector;
 	//int rows;
 	//char filename[CONTROLLER_ARGUMENT_FILE_NAME_SIZE];
@@ -97,84 +104,67 @@ static Common_Error ConvertStringToArgumentsToken(Controller_Enum_Commands cmd, 
 	//char value_string[CONTROLLER_ARGUMENT_VALUE_SIZE];
 	//Controller_Cell cell;
 
-	/*********************************************
-	# File Commands
-
-	NEW rows columns
-	Commands Cell Cell
-		Create a new spreadsheet with the given number of rows and columns.
-
-	LOAD filename
-	Commands char[]
-		Load data into the worksheet from filename.
-
-	SAVE filename
-	Commands char[]
-		Save the current worksheet to filename, overwriting any existing file.
-
-	EXIT
-	Commands
-		Exit the program.
-
-	----------------------------------------------
-	# Viewport Control
-	CURSOR cell
-	Commands Cell
-		Move the cursor to the given cell.
-
-	PREC digits
-	Commands int
-		Display numbers with digits places after the decimal point.
-
-	WIDTH characters
-	Commands int
-		Display each cell characters wide.
-
-	----------------------------------------------
-	# Data Manipulation
-	SET cell value
-	Commands double
-	Commands char[]
-		Set the value of the given cell, overwriting any existing value.
-
-	SET cell
-	Commands Cell
-		Erase the value of the given cell.
-
-	SUM cell1 cell2
-	Commands Cell Cell
-		Compute the sum of all of the numeric values in the rectangle bounded by cell1 and cell2.
-
-	AVG cell1 cell2
-	Commands Cell Cell
-		Compute the average (arithmetic mean) of all of the numeric values in the rectangle bounded by cell1 and cell2.
-	*********************************************/
-
 	int is_success = false;
 
 	switch (cmd) {
 	case Controller_Enum_Commands_Exit:
+		//EXIT
+		//Commands
+		//	Exit the program.
 		// do nothing
-		return;
+		break;
 	case Controller_Enum_Commands_New:
+		//NEW rows columns
+		//Commands Cell Cell
+		//	Create a new spreadsheet with the given number of rows and columns.
+		RETURN_IF_ERROR(err = TryConvertArgumentToCell(&is_success, arg_str1, arg1));
+		RETURN_IF_ERROR(err = TryConvertArgumentToCell(&is_success, arg_str2, arg2));
 		break;
 	case Controller_Enum_Commands_Load:
+		//LOAD filename
+		//Commands char[]
+		//	Load data into the worksheet from filename.
 		break;
 	case Controller_Enum_Commands_Save:
+		//SAVE filename
+		//Commands char[]
+		//	Save the current worksheet to filename, overwriting any existing file.
 		break;
 	case Controller_Enum_Commands_Cursor:
+		//CURSOR cell
+		//Commands Cell
+		//	Move the cursor to the given cell.
 		break;
 	case Controller_Enum_Commands_Prec:
+		//PREC digits
+		//Commands int
+		//	Display numbers with digits places after the decimal point.
 		break;
 	case Controller_Enum_Commands_Width:
+		//WIDTH characters
+		//Commands int
+		//	Display each cell characters wide.
 		break;
 	case Controller_Enum_Commands_Set:
+		//SET cell value
+		//Commands double
+		//Commands char[]
+		//	Set the value of the given cell, overwriting any existing value.
 		break;
 	case Controller_Enum_Commands_Erase:
+		//SET cell
+		//Commands Cell
+		//	Erase the value of the given cell.
 		break;
 	case Controller_Enum_Commands_Sum:
+		//SUM cell1 cell2
+		//Commands Cell Cell
+		//	Compute the sum of all of the numeric values in the rectangle bounded by cell1 and cell2.
 		break;
 	case Controller_Enum_Commands_Avg:
+		//AVG cell1 cell2
+		//Commands Cell Cell
+		//	Compute the average (arithmetic mean) of all of the numeric values in the rectangle bounded by cell1 and cell2.
 		break;
 	case Controller_Enum_Commands_Unknown:
 		// do nothing
@@ -187,6 +177,49 @@ static Common_Error ConvertStringToArgumentsToken(Controller_Enum_Commands cmd, 
 	return COMMON_ERROR_NO_ERROR;
 }
 
+
+static Common_Error TryConvertArgumentToCell(int* is_success, char arg_str[], Controller_Argument* arg)
+{
+	char c = '\0';
+	int d = 0;
+
+	*is_success = false;
+
+	Controller_Argument_Init(arg);
+
+	if (arg_str[0] == '\0') {
+		return COMMON_ERROR_NO_ERROR;
+	}
+
+	c = arg_str[0];
+
+	if (!(('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z'))) {
+		return COMMON_ERROR_NO_ERROR;
+	}
+
+	if ('A' <= c && c <= 'Z') {
+		c = c - 'A' + 1;
+	}
+
+	if ('a' <= c && c <= 'z') {
+		c = c - 'a' + 1;
+	}
+
+	d = atoi(&arg_str[1]);
+
+	if (d == 0) {
+		return COMMON_ERROR_NO_ERROR;
+	}
+
+	arg->arg_selector = CONTOLLER_ARGUMENT_CELL;
+	arg->cell.column = (int)c;
+	arg->cell.row = d;
+
+	*is_success = true;
+	return COMMON_ERROR_NO_ERROR;
+}
+
+
 static Common_Error Evaluate(View_Reader* view_Reader, View_Viewer* view_Viewer)
 {
 	// Stub
@@ -196,14 +229,9 @@ static Common_Error Evaluate(View_Reader* view_Reader, View_Viewer* view_Viewer)
 
 	for (int i = 0; i < VIEW_VIEWER_ARGUMENT_SIZE; i++)
 		view_Viewer->arg1[i] = view_Reader->arg1[i];
-	
+
 	for (int i = 0; i < VIEW_VIEWER_ARGUMENT_SIZE; i++)
 		view_Viewer->arg2[i] = view_Reader->arg2[i];
 
 	return COMMON_ERROR_NO_ERROR;
-}
-
-static Common_Error TryConvertArgumentTo(int* is_success)
-{
-
 }

@@ -11,8 +11,6 @@ static Common_Error Read(int*, char[], char[], char[]);
 // reader of REPL
 Common_Error View_Reader_Read(View_Reader* this)
 {
-	Common_Error err;
-
 	Init(this);
 
 	// precondition check
